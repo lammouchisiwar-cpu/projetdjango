@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.utils import timezone
 
 # Create your models here
     
@@ -35,7 +36,7 @@ class Expedition(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 def clean (self):
     super().clean()
-    if self.entreprise_id and self.entreprise.type_entreprise=! 'chargeur':
+    if self.entreprise_id and self.entreprise.type_entreprise != 'chargeur':
         raise ValidationError({
             'entreprise':'une expedition ne peut etre cree que par un chargeur'
         })

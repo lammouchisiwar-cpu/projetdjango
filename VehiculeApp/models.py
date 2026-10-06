@@ -1,6 +1,6 @@
 from django.db import models
-from django.core.validators import validators
-
+from django.core.validators import ValidationError
+from django.core.validators import MinValueValidator
 # Create your models here.
 class Vehicule(models.Model):
     class TypeVehicule(models.TextChoices):
@@ -22,3 +22,13 @@ class Vehicule(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def clean(self):
+        super().clean()
+        if self.entreprise_id:
+            if self.entreprise.type_entreprise != 'transporteur':
+                raise ValidationError({
+                    'entreprise':
+                        "Un véhicule doit appartenir à une "
+                        "entreprise de type transporteur."
+                })
