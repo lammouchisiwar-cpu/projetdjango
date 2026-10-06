@@ -1,7 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MinLengthValidator
+from django.core.validators import MinLengthValidator, MaxLengthValidator
+from django.core.exceptions import ValidationError
 # Create your models here.
+def validate_email(value):
+    if not value:
+        raise ValidationError("l'adresse email est obligatoire")
+    if not value.endswith ("@gmail.com"):
+        raise ValidationError("le domaine ccepte est gmail")
 class Utilisateur(AbstractUser):
     user_id=models.CharField(primary_key=True,max_length=8)
     email=models.EmailField(unique=True)

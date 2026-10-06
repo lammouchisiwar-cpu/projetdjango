@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import validators
 
 # Create your models here.
 class Vehicule(models.Model):
