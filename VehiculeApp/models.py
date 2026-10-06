@@ -9,7 +9,7 @@ class Vehicule(models.Model):
         SEMI_REMORQUE = 'semi_remorque', 'Semi-remorque'
     immatriculation = models.CharField(max_length=30, unique=True)
     type_vehicule = models.CharField(max_length=30, choices=TypeVehicule.choices)
-    capacite_kg = models.PositiveIntegerField()
+    capacite_kg = models.PositiveIntegerField(validators=[MinValueValidator(100,"la capacite doit etre superieure a 0 kg")])
     disponible = models.BooleanField(default=True)
     
     entreprise = models.ForeignKey(
