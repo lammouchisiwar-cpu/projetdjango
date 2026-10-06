@@ -15,7 +15,7 @@ class Expedition(models.Model):
     reference = models.CharField(max_length=32, unique=True, editable=False)
     ville_depart = models.CharField(max_length=100)
     ville_arrivee = models.CharField(max_length=100)
-    poids_kg = models.DecimalField(max_digits=10, decimal_places=2,validators=MinLengthValidator(0.001,"le poids doit etre superieur a 0 kg")])
+    poids_kg = models.DecimalField(max_digits=10, decimal_places=2,validators=MinLengthValidator(0.001,"le poids doit etre superieur a 0 kg"))
     date_souhaitee = models.DateField()
     description = models.TextField(blank=True)
     statut = models.CharField(
@@ -33,6 +33,12 @@ class Expedition(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+def clean (self):
+    super().clean()
+    if self.entreprise_id and self.entreprise.type_entreprise=! 'chargeur':
+        raise ValidationError({
+            'entreprise':'une expedition ne peut etre cree que par un chargeur'
+        })
 @classmethod
 def _generate_reference(cls):
     annee=timezone.now().strftime('%y')

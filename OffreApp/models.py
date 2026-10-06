@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
- class Offre(models.Model):
+class Offre(models.Model):
     class Statut(models.TextChoices):
         PROPOSEE = 'proposee', 'Proposée'
         ACCEPTEE = 'acceptee', 'Acceptée'
