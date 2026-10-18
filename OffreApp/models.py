@@ -18,18 +18,18 @@ class Offre(models.Model):
     )
     date_proposition = models.DateField(auto_now_add=True)
     expedition = models.ForeignKey(
-        'ExpeditionsApp.Expedition',
+        'ExpeditionApp.Expedition',
         on_delete=models.CASCADE,
         related_name='offres'
     )
     transporteur = models.ForeignKey(
-        'EntreprisesApp.Entreprise',
+        'EntrepriseApp.Entreprise',
         on_delete=models.CASCADE,
         related_name='offres_transporteur',
         limit_choices_to={'type_entreprise': 'transporteur'}
     )
     vehicule = models.ForeignKey(
-        'VehiculesApp.Vehicule',
+        'VehiculeApp.Vehicule',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -38,7 +38,7 @@ class Offre(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-def clean(self):
+    def clean(self):
         super().clean()
 
         if self.transporteur_id:

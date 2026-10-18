@@ -1,11 +1,10 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MinLengthValidator
 from django.utils import timezone
 
 # Create your models here
     
-
 class Expedition(models.Model):
     class Statut(models.TextChoices):
         PUBLIEE = 'publiee', 'Publiée'
@@ -16,7 +15,7 @@ class Expedition(models.Model):
     reference = models.CharField(max_length=32, unique=True, editable=False)
     ville_depart = models.CharField(max_length=100)
     ville_arrivee = models.CharField(max_length=100)
-    poids_kg = models.DecimalField(max_digits=10, decimal_places=2,validators=MinLengthValidator(0.001,"le poids doit etre superieur a 0 kg"))
+    poids_kg = models.DecimalField(max_digits=10, decimal_places=2,validators=[MinLengthValidator(0.001,"le poids doit etre superieur a 0 kg")])
     date_souhaitee = models.DateField()
     description = models.TextField(blank=True)
     statut = models.CharField(

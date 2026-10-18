@@ -14,7 +14,7 @@ class Vehicule(models.Model):
     disponible = models.BooleanField(default=True)
     
     entreprise = models.ForeignKey(
-        'EntreprisesApp.Entreprise',
+        'EntrepriseApp.Entreprise',
         on_delete=models.CASCADE,
         related_name='vehicules',
         limit_choices_to={'type_entreprise': 'transporteur'}
@@ -22,7 +22,8 @@ class Vehicule(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+    def _str_(self):
+        return f"{self.type_vehicule} ({self.immatriculation})"
     def clean(self):
         super().clean()
         if self.entreprise_id:
@@ -32,3 +33,6 @@ class Vehicule(models.Model):
                         "Un véhicule doit appartenir à une "
                         "entreprise de type transporteur."
                 })
+    def save (self,*args,**kwargs):
+        self.full_clean()
+        super().save(*args,**kwargs)

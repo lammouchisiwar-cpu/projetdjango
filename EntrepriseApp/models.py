@@ -8,7 +8,10 @@ def validate_email(value):
         raise ValidationError("l'adresse email est obligatoire")
     if not value.endswith ("@gmail.com"):
         raise ValidationError("le domaine accepte est gmail")
-matricule_fiscale_validator=RegexValidator(regex=r'^\d{7}[/ -]?[A-Za-z][/ -]?[ABDNPEabdnpe][/ -]?[MPCNEmpcne][/ -]?\d{3}$',message="Format errone")
+matricule_fiscale_validator=RegexValidator(regex=r'^\d{7}[/ -]?[A-Za-z][/ -]?[ABDNPEabdnpe][/ -]?[MPCNEmpcne][/ -]?\d{3}$',
+            message="Format attendu : 7 chiffres, 1 lettre (cle de controle),"
+                    "1 lettre (A/B/D/N/P), 1 lettre (M/P/C/N/E), 3 chiffres "
+                    "(ex.1234567AAM000 ou 1234567-A-A-M-000).")
 
 
 
@@ -51,7 +54,6 @@ class Utilisateur(AbstractUser):
         return f"{prefixe}{compteur:02d}"
 
     def save(self, *args, **kwargs):
-
         if not self.user_id:
             self.user_id = self._generate_user_id()
 
@@ -61,7 +63,7 @@ class Utilisateur(AbstractUser):
 
 class Entreprise(models.Model):
     raison_social=models.CharField(max_length=200,blank=False, null=False)
-    matricules_fiscale=models.CharField(max_length=17,unique=True, validators=[matricule_fiscal_validator])
+    matricules_fiscale=models.CharField(max_length=17,unique=True, validators=[matricule_fiscale_validator])
     adresse=models.TextField(validators=[MinLengthValidator(20,"l'adresse ne peut pas avoir moins de 20 char"),MaxLengthValidator(400,"l'adresse ne peut pas depasser les 400 char")])
     type_entreprise=models.CharField(max_length=100,choices=[
         ('c','Chargeur'),
