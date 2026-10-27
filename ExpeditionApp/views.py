@@ -9,7 +9,7 @@ def welcome(request,name):
     return HttpResponse(f"Hello {name}")
 
 def listExpedition(request):
-    liste=Expedition.objects.all()
+    liste=Expedition.objects.filter(statut="publiee").order_by("date_depart")
     return render (request, 'expedition/list.html', {"list":liste})
 def detailExpedition(request , id):
     expedition=Expedition.objects.get(id=id)
