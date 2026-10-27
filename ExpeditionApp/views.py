@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Expedition 
 # Create your views here.
 def home(request):
@@ -14,3 +14,9 @@ def listExpedition(request):
 def detailExpedition(request , id):
     expedition=Expedition.objects.get(id=id)
     return render(request, 'expedition/details.html',{"expedition":expedition})
+def deleteExpedition(request ,id):
+     expedition=Expedition.objects.get(id=id)
+     if request.method== 'POST' : 
+         expedition.delete()
+         return redirect('list')
+     return render(request, 'expedition/delete.html', {"expedition": expedition})
