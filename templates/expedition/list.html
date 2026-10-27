@@ -1,0 +1,6 @@
+<h1> list expeditions </h1>
+{% for expedition in list %}
+    <li><a href="{% url 'details' id=expedition.id%}">{{expedition.reference}}</a> -{{expedition.entreprise}}</li>
+    {% empty %}
+        no expedition
+{% endfor %}
